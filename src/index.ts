@@ -1,4 +1,2 @@
-export * from './Load';
-export * from './ELoadState';
-export * from './ILoadChildren';
-export * from './ILoadProps';
+export * from "./load";
+export * from "./toggler";

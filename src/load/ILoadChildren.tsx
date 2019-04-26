@@ -1,4 +1,5 @@
 import { ELoadState } from "./ELoadState";
+
 export interface ILoadChildren<T> {
   triggerLoad: () => void;
   data?: T;
