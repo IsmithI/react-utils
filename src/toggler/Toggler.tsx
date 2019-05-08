@@ -1,24 +1,30 @@
-import { ReactNode, useReducer, useState } from "react";
+import { ReactNode, useReducer } from "react";
 import React from "react";
 
 interface ITogglerChild {
   isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
+  set: (value: boolean) => void;
 }
 
 export interface IToggler {
   children: (props: ITogglerChild) => ReactNode;
-  intial?: boolean;
+  initial?: boolean;
 }
 
-export const Toggler = ({ children, intial = false }: IToggler) => {
-  const [isOpen, setIsOpen] = useState(intial);
+export const Toggler = ({ children, initial = false }: IToggler) => {
+  const [isOpen, dispatch] = useReducer(togglerReducer, initial);
 
   return (
     <>
       {children({
         isOpen,
-        setIsOpen
+        open: () => dispatch({ type: 'OPEN' }),
+        close: () => dispatch({ type: 'CLOSE' }),
+        toggle: () => dispatch({ type: 'TOGGLE' }),
+        set: value => dispatch({ type: 'SET', value })
       })}
     </>
   );
@@ -32,10 +38,14 @@ function togglerReducer(state: boolean, action: any) {
       return false;
     case 'TOGGLE':
       return !state;
+    case 'SET':
+      return action.value;
+    default:
+      return state;
   }
 }
 
-export function useToggler(initial: boolean = false) {
+export function useToggler(initial = false) {
   const [isOpen, dispatch] = useReducer(togglerReducer, initial);
 
   return ({
@@ -43,5 +53,6 @@ export function useToggler(initial: boolean = false) {
     open: dispatch({ type: 'OPEN' }),
     close: dispatch({ type: 'CLOSE' }),
     toggle: dispatch({ type: 'TOGGLE' }),
+    set: (value: boolean) => dispatch({ type: 'SET', value })
   })
 }
