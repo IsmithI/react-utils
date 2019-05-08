@@ -45,14 +45,14 @@ function togglerReducer(state: boolean, action: any) {
   }
 }
 
-export function useToggler(initial = false) {
+export function useToggler(initial = false): ITogglerChild {
   const [isOpen, dispatch] = useReducer(togglerReducer, initial);
 
   return ({
     isOpen,
-    open: dispatch({ type: 'OPEN' }),
-    close: dispatch({ type: 'CLOSE' }),
-    toggle: dispatch({ type: 'TOGGLE' }),
-    set: (value: boolean) => dispatch({ type: 'SET', value })
+    open: () => dispatch({ type: 'OPEN' }),
+    close: () => dispatch({ type: 'CLOSE' }),
+    toggle: () => dispatch({ type: 'TOGGLE' }),
+    set: value => dispatch({ type: 'SET', value })
   })
 }
