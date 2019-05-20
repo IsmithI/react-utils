@@ -21,8 +21,8 @@ export class RestClient {
 
     return fetch(url, requestOptions)
       .then(res => res.json() as unknown as IRequest<T>)
-      .then(handleRequestError)
-      .catch(handleFatalError);
+      .then(this.handleRequestError)
+      .catch(this.handleFatalError);
   };
 
   get = <T = any>(url: string, options?: RequestInit) => this.request<T>(url, options);
@@ -58,16 +58,4 @@ export class RestClient {
   handleFatalError(err: Error): never {
     throw err;
   }
-}
-
-function handleRequestError<T>(res: IRequest<T>): T {
-  if (res.code === 200) {
-    return res.payload;
-  } else {
-    throw new Error(res.message);
-  }
-}
-
-function handleFatalError(err: Error): never {
-  throw err;
 }
