@@ -1,11 +1,10 @@
 import * as React from "react"
-import { ReactElement } from "react"
 import { IList } from "./IList"
 import { List } from "./List"
 import { ChangeHandler } from "./ChangeHandler"
 import { IListItem } from "./IListItem"
 
-type Item<R> = (props: IListItem<R>) => ReactElement<IListItem<R>>;
+type Item<R> = React.ComponentType<IListItem<R>>
 
 export class ListBuilder<R> {
   private listItem: Item<R>
@@ -28,10 +27,11 @@ export class ListBuilder<R> {
   }
 
   make = () => {
+    const ListItem = this.listItem;
     return (props: IList<R>) => (
       <List
         {...props}
-        ListItem={this.listItem}
+        ListItem={(props: IListItem<R>) => <ListItem {...props} />}
         onItemChange={this.changeHandler}
         onItemDelete={this.deleteHandler}
       />
