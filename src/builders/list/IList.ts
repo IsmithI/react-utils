@@ -6,4 +6,5 @@ export interface IList<R> {
   items: R[]
   ListItem?: (props: IListItem<R>) => ReactElement<IListItem<R>>
   onItemChange?: ChangeHandler<R>
+  onItemDelete?: ChangeHandler<R>
 }

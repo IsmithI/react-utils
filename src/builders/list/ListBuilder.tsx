@@ -10,6 +10,7 @@ type Item<R> = (props: IListItem<R>) => ReactElement<IListItem<R>>;
 export class ListBuilder<R> {
   private listItem: Item<R>
   private changeHandler: ChangeHandler<R>
+  private deleteHandler: ChangeHandler<R>
 
   render = (item: Item<R>) => {
     this.listItem = item
@@ -21,12 +22,18 @@ export class ListBuilder<R> {
     return this
   }
 
+  onItemDelete = (deleteHandler: ChangeHandler<R>) => {
+    this.deleteHandler = deleteHandler
+    return this
+  }
+
   make = () => {
     return (props: IList<R>) => (
       <List
         {...props}
         ListItem={this.listItem}
         onItemChange={this.changeHandler}
+        onItemDelete={this.deleteHandler}
       />
     )
   }
