@@ -1,0 +1,1 @@
+export type ChangeHandler<R> = (item: R) => void;
