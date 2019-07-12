@@ -1,39 +1,25 @@
 import * as React from "react"
-import { IList } from "./IList"
+import { ReactElement } from "react"
 import { List } from "./List"
 import { ChangeHandler } from "./ChangeHandler"
 import { IListItem } from "./IListItem"
 
-type Item<R> = React.ComponentType<IListItem<R>>
+type Item<R> = (props: IListItem<R>) => ReactElement<IListItem<R>>
 
-export class ListBuilder<R> {
-  private listItem: Item<R>
-  private changeHandler: ChangeHandler<R>
-  private deleteHandler: ChangeHandler<R>
+interface ListBuilderProps<R> {
+  items: R[];
+  ListItem: Item<R>;
+  onItemChange?: ChangeHandler<R>;
+  onItemDelete?: ChangeHandler<R>;
+}
 
-  render = (item: Item<R>) => {
-    this.listItem = item
-    return this
-  }
+export class ListBuilder<R> extends React.Component<ListBuilderProps<R>> {
 
-  onItemChange = (changeHandler: ChangeHandler<R>) => {
-    this.changeHandler = changeHandler
-    return this
-  }
-
-  onItemDelete = (deleteHandler: ChangeHandler<R>) => {
-    this.deleteHandler = deleteHandler
-    return this
-  }
-
-  make = () => {
-    const ListItem = this.listItem;
-    return (props: IList<R>) => (
+  render = () => {
+    const { ...props } = this.props
+    return (
       <List
         {...props}
-        ListItem={(props: IListItem<R>) => <ListItem {...props} />}
-        onItemChange={this.changeHandler}
-        onItemDelete={this.deleteHandler}
       />
     )
   }

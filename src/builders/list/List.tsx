@@ -8,7 +8,13 @@ export class List<R> extends React.Component<IList<R>> {
 
     return (
       <ul>
-        {ListItem && items.map(item => <ListItem item={item} onItemChange={onItemChange} onItemDelete={onItemDelete}/>)}
+        {ListItem && items.map(
+          (item: R) =>
+            <ListItem
+              item={item}
+              onItemChange={onItemChange}
+              onItemDelete={onItemDelete}/>
+        )}
       </ul>
     )
   }

@@ -1,7 +1,8 @@
-import React from "react";
+import * as React from "react";
 import { Load } from "../../src";
-import Enzyme, { shallow } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import { shallow } from "enzyme";
+import * as Enzyme from "enzyme";
+import * as Adapter from "enzyme-adapter-react-16";
 
 Enzyme.configure({ adapter: new Adapter() });
 
