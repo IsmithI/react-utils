@@ -10,6 +10,12 @@ const defaultHeaders = {
 
 export class RestClient {
 
+  baseUrl: string;
+
+  constructor(baseUrl: string = '') {
+    this.baseUrl = baseUrl;
+  }
+
   request = <T = any>(url: string, options: RequestInit = {}): Promise<T> => {
     const requestOptions = {
       ...options,
@@ -19,7 +25,7 @@ export class RestClient {
       }
     };
 
-    return fetch(url, requestOptions)
+    return fetch(this.baseUrl + url, requestOptions)
       .then(res => res.json() as unknown as IRequest<T>)
       .then(this.handleRequestError)
       .catch(this.handleFatalError);
