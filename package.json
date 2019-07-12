@@ -9,7 +9,7 @@
 		"build": "npm run clean && tsc",
 		"prepare": "npm run build",
 		"test": "jest",
-		"preversion": "num run test",
+		"preversion": "npm run test",
 		"version": "npm run build",
 		"postversion": "git push && git push --tags"
 	},
